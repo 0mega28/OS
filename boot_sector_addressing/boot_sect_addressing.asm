@@ -1,7 +1,7 @@
 ;
 ; A simple boot sector program that demonstrates addressing.
 ;
-
+[org 0x7c00]
 mov ah, 0x0e ; int 10/ ah = 0 eh -> scrolling teletype BIOS routine
 
 ; First attempt
