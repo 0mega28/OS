@@ -12,4 +12,4 @@ nasm boot_sect.asm -f bin -o boot_sect.bin
 qemu-system-x86_64 boot_sect.bin
 
 # To see the content of boot_sect.bin run, 
-# od -t x1 -A n boot sect.bin
+# od -t x1 -A n boot_sect.bin
