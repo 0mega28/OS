@@ -28,7 +28,7 @@ BEGIN_PM:
 
 ; Gloabal variable
 MSG_REAL_MODE db "Started in 16-bit Real mode", 0
-MSG_PROT_MODE db "Successfully landed in 32-bit Protected mdoe", 0
+MSG_PROT_MODE db "Successfully landed in 32-bit Protected mode", 0
 
 ; Bootsector padding
 times 510-($-$$) db 0
