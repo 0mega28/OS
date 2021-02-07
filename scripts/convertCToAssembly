@@ -19,3 +19,5 @@ else
 	ndisasm -b 32 out.bin > out.dis
 	#	 -b 32 tells the disassembler to decode to 32 bit assembly instruction
 fi
+
+rm out.bin out.o
