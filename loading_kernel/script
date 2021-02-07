@@ -1,0 +1,15 @@
+#!/bin/bash
+
+gcc -ffreestanding -c kernel.c -o kernel.o
+
+# We tell the linker to offset address to 0x1000,
+# because that is where our BIOS loads and begins to exectute it.
+ld -o kernel.bin -Ttext 0x1000 kernel.o --oformat binary
+
+nasm -f bin boot_sect.asm -o boot_sect.bin
+
+cat boot_sect.bin kernel.bin > os.img
+
+qemu-system-x86_64 os.img
+
+rm boot_sect.bin kernel.bin kernel.o
