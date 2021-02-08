@@ -11,7 +11,7 @@ mov sp, bp                      ;
 ;mov bx, 0x0000					; Load 5 sectors to 0x0000(ES):0x9000(BX)
 ;mov es, bx 						;
 mov bx, 0x9000 					;
-mov dh, 5						; from the boot disk
+mov dh, 0x2						; from the boot disk
 
 mov dl, [BOOT_DRIVE]
 call disk_load
