@@ -17,12 +17,12 @@ disk_load:
 
 	int 0x13						; BIOS interrupt to read
 
-	; jc disk_error					; If there is an error while read then BIOS sets carry flag(CF)
+	jc disk_error					; If there is an error while read then BIOS sets carry flag(CF)
 									; jump only if the CF is set
 
 	pop dx 							; Restore DX from stack
 	cmp dh, al 						; if AL(sector read) != DH(sectors expected to read)
-	; jne disk_error 					; display error message
+	jne disk_error 					; display error message
 	ret
 
 disk_error:
