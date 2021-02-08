@@ -38,4 +38,6 @@ clean:
 	rm -fr *.bin *.dis *.o os-image
 	rm -fr kernel/*.o boot/*.bin drivers/*.o
 
-	
+# Disassemble our kernel (Useful for debugging)
+kernel.dis: kernel.bin
+	ndisasm -b 32 $< > $@
