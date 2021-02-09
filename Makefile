@@ -21,23 +21,27 @@ os-image: boot/boot_sect.bin kernel.bin
 #	- the kernel_entry, which jumps to main in our kernel
 #	- the compile C kernel
 kernel.bin: kernel/kernel_entry.o ${OBJ}
-	ld -o $@ -Ttext 0x1000 $^ --oformat binary
+	i686-elf-ld -o $@ -Ttext 0x1000 $^ --oformat binary
 
 # Generic rule to compile C code to an object file
 %.o: %.c ${HEADERS}
-	gcc -ffreestanding -c $< -o $@
+	i686-elf-gcc -ffreestanding -c $< -o $@
 
 # Assemble kernel_entry
 %.o: %.asm
-	nasm $< -f elf64 -o $@
+	nasm $< -f elf -o $@
 
 %.bin: %.asm
 	nasm $< -f bin -I 'boot/' -o $@
 
 clean:
-	rm -fr *.bin *.dis *.o os-image
-	rm -fr kernel/*.o boot/*.bin drivers/*.o
+	rm -fr *.bin *.dis *.o os-image	*.elf
+	rm -fr kernel/*.o boot/*.bin drivers/*.o boot/*.o
 
 # Disassemble our kernel (Useful for debugging)
 kernel.dis: kernel.bin
 	ndisasm -b 32 $< > $@
+
+# Used for debugging purposes
+kernel.elf: kernel/kernel_entry.o ${OBJ}
+	i686-elf-ld -o $@ -Ttext 0x1000 $^ 
