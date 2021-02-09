@@ -18,3 +18,16 @@ print_and_increment:
 end:
     popa
     ret
+
+; Subroutine to print new line
+print_nl:
+    pusha
+    
+    mov ah, 0x0e
+    mov al, 0x0a    ; Newline char
+    int 0x10
+    mov al, 0x0d    ; Carriage return
+    int 0x10
+
+    popa
+    ret

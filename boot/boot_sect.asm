@@ -11,6 +11,8 @@ mov sp, bp
 mov bx, MSG_REAL_MODE           ; Announce that we are starting
 call print_string               ; booting from 16-bit real mode
 
+call print_nl                   ; Prints new line char
+
 call load_kernel                ; Load our kernel
 
 call switch_to_pm               ; Switch to protected mode, from
@@ -30,6 +32,7 @@ jmp $
 load_kernel:
     mov bx, MSG_LOAD_KERNEL     ; Announce loading kernel
     call print_string
+    call print_nl
 
     mov bx, KERNEL_OFFSET       ; Set-up paramaters for our disk_load routine
     mov dh, 15                  ; that we load the first 15 sectors (excluding
