@@ -10,7 +10,7 @@ all: os-image
 
 # Run
 run: all
-	qemu-system-x86_64 os-image
+	qemu-system-i386 os-image
 
 # This is the actual disk image that our computer loads
 # which is the combination of our compiled bootsector and kernel
