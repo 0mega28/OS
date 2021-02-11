@@ -22,7 +22,10 @@
 │   ├── print_string_pm.asm
 │   └── switch_to_pm.asm
 ├── drivers
-│   └── placeholder
+│   ├── ports.c
+│   ├── ports.h
+│   ├── screen.c
+│   └── screen.h
 ├── kernel
 │   ├── kernel.c
 │   └── kernel_entry.asm
