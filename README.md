@@ -1,11 +1,15 @@
 # Create an OS from scratch
 
-### I have always wanted to boot OS from scratch.
+#### I have always wanted to boot OS from scratch.
+
+<br/>
 
 ## Things which are done
 -   Boot from scratch
 -   Enter 32-bit Protected mode
 -   Jump from assembly to C
+
+<br/>
 
 ## Directory structure
 
@@ -27,6 +31,8 @@
 
 `/Practice` contains chunks of routines used to actually boot
 
+<br/>
+
 ## Build
 
 ```bash
@@ -34,7 +40,19 @@ $ make
 $ make run
 ```
 
-# Resources 
-[Writing a Simple Operating System —
+<br/>
+
+## Resources 
+-   [Writing a Simple Operating System —
 from Scratch -by
 Nick Blundell](https://www.cs.bham.ac.uk/~exr/lectures/opsys/10_11/lectures/os-dev.pdf)
+-   https://github.com/cfenollosa/os-tutorial
+-   https://github.com/acmiitr/KSOS
+-   http://www.brokenthorn.com/Resources/OSDevIndex.html
+-   http://www.jamesmolloy.co.uk/tutorial_html/
+-   https://wiki.osdev.org/Meaty_Skeleton
+
+<br/>
+
+## PS
+I should have made symbolic links to the routines from /Practice but I forgot :D 
