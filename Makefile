@@ -21,7 +21,7 @@ os-image: boot/boot_sect.bin kernel.bin
 #	- the kernel_entry, which jumps to main in our kernel
 #	- the compile C kernel
 kernel.bin: kernel/kernel_entry.o ${OBJ}
-	i686-elf-ld -o $@ -Ttext 0x1000 $^ --oformat binary
+	i686-elf-ld -o $@ -Ttext 0x1000 $^ --oformat binary -e main
 
 # Generic rule to compile C code to an object file
 %.o: %.c ${HEADERS}
