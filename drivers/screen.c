@@ -97,14 +97,15 @@ int print_char(char c, int col, int row, char attr)
     {
         for (int i = 1; i < MAX_ROWS; i++)
         {
-            memory_copy(get_offset(0, i) + VIDEO_ADDRESS,
-                        get_offset(0, i - 1) + VIDEO_ADDRESS,
+            memory_copy((char *)(get_offset(0, i) + VIDEO_ADDRESS),
+                        (char *)(get_offset(0, i - 1) + VIDEO_ADDRESS),
                         2 * MAX_COLS);
         }
 
         /* For Last line set it to blank */
-        char *last_line = get_offset(0, MAX_ROWS - 1) + VIDEO_ADDRESS;
-        for (int i = 0; i < MAX_COLS * 2; i++) last_line[i] = 0;
+        char *last_line = (char *)get_offset(0, MAX_ROWS - 1) + VIDEO_ADDRESS;
+        for (int i = 0; i < MAX_COLS * 2; i++)
+            last_line[i] = 0;
 
         offset -= 2 * MAX_COLS;
     }
