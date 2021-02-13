@@ -1,3 +1,5 @@
+#include "ports.h"
+
 /*
  * Read a byte from the specified port   
  */
@@ -25,20 +27,20 @@
  * +---+--------------------+
  */
 
-unsigned char port_byte_in(unsigned short port)
+u8 port_byte_in(u16 port)
 {
     /*
      * The value of port goes as input in DX register
      * and the output of register AL goes into result variable
      */
-    unsigned char result;
+    u8 result;
     __asm__("in %%dx, %%al"
             : "=a"(result)
             : "d"(port));
     return result;
 }
 
-void port_byte_out(unsigned short port, unsigned char data)
+void port_byte_out(u16 port, u8 data)
 {
     /*
      * Both registers are mapped to C variables
@@ -49,16 +51,16 @@ void port_byte_out(unsigned short port, unsigned char data)
             : "a"(data), "d"(port));
 }
 
-unsigned short port_word_in(unsigned short port)
+u16 port_word_in(u16 port)
 {
-    unsigned short result;
+    u16 result;
     __asm__("in %%dx, %%ax"
             : "=a"(result)
             : "d"(port));
     return result;
 }
 
-void port_word_out(unsigned short port, unsigned short data)
+void port_word_out(u16 port, u16 data)
 {
     __asm__("out %%ax, %%dx"
             :
