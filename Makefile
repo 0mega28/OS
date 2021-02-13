@@ -1,16 +1,16 @@
 # Automatically generate lists of source using wildcards.
-C_SOURCES = $(wildcard kernel/*.c drivers/*.c)
-HEADERS = $(wildcard kernel/*.h drivers/*.h)
+C_SOURCES = $(wildcard kernel/*.c drivers/*.c cpu/*.c)
+HEADERS = $(wildcard kernel/*.h drivers/*.h cpu/*.h)
 
 # Convert the *.c filenames to *.o to give a list of object files to build
-OBJ = ${C_SOURCES:.c=.o}
+OBJ = ${C_SOURCES:.c=.o cpu/interrupt.o}
 
 # Default build target
 all: os-image
 
 # Run
 run: all
-	qemu-system-i386 os-image 2> /dev/null
+	qemu-system-i386 -drive format=raw,file=os-image -monitor stdio
 
 # This is the actual disk image that our computer loads
 # which is the combination of our compiled bootsector and kernel
@@ -35,8 +35,11 @@ kernel.bin: kernel/kernel_entry.o ${OBJ}
 	nasm $< -f bin -I 'boot/' -o $@
 
 clean:
-	rm -fr *.bin *.dis *.o os-image	*.elf
-	rm -fr kernel/*.o boot/*.bin drivers/*.o boot/*.o
+	find . -name "*.o" -type f -delete
+	find . -name "*.bin" -type f -delete
+	find . -name "*.elf" -type f -delete
+	find . -name "*.dis" -type f -delete
+	rm os-image
 
 # Disassemble our kernel (Useful for debugging)
 kernel.dis: kernel.bin
