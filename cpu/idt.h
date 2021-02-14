@@ -9,19 +9,19 @@
 /* Struct describing interrupt gate (handler) is defined */
 struct idt_entry_struct
 {
-    u16 low_offset; /* Lower 16 bits of handler function address
+    uint16_t low_offset; /* Lower 16 bits of handler function address
                     i.e. address to jump when this interrup fires */
 
-    u16 sel; /* Kernel segment selector */
+    uint16_t sel; /* Kernel segment selector */
 
-    u8 always0;
+    uint8_t always0;
     /* First byte
      * Bit 7: "Interrupt is present"
      * Bits 6-5: Privilege level of caller (0=kernel..3=user)
      * Bit 4: Set to 0 for interrupt gates
      * Bits 3-0: bits 1110 = decimal 14 = "32 bit interrupt gate" */
 
-    u8 flags;
+    uint8_t flags;
     /*
     * The lower 5-bits should be constant at 01110b-14 in decimal.
     * The DPL describes the privilege level we expect to be called
@@ -32,7 +32,7 @@ struct idt_entry_struct
     * a "Interrupt Not Handled" exception.
     */
 
-    u16 high_offset; /* Higher 16 bits of handler function address */
+    uint16_t high_offset; /* Higher 16 bits of handler function address */
 } __attribute__((packed));
 
 typedef struct idt_entry_struct idt_gate_t;
@@ -43,8 +43,8 @@ typedef struct idt_entry_struct idt_gate_t;
  */
 
 struct idt_ptr_struct {
-    u16 limit;  /* The total size of the idt array */
-    u32 base;   /* The address of the first element in out idt array*/
+    uint16_t limit;  /* The total size of the idt array */
+    uint32_t base;   /* The address of the first element in out idt array*/
 } __attribute__((packed));
 
 typedef struct idt_ptr_struct idt_register_t;
@@ -54,7 +54,7 @@ idt_gate_t idt[IDT_ENTRIES];
 idt_register_t idt_reg;
 
 /* Functions implemented in idt.c */
-void set_idt_gate(int n, u32 handler);
+void set_idt_gate(int n, uint32_t handler);
 void set_idt();
 
 #endif

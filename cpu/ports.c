@@ -27,42 +27,42 @@
  * +---+--------------------+
  */
 
-u8 port_byte_in(u16 port)
+uint8_t port_byte_in(uint16_t port)
 {
     /*
      * The value of port goes as input in DX register
      * and the output of register AL goes into result variable
      */
-    u8 result;
-    __asm__("in %%dx, %%al"
+    uint8_t result;
+    asm("in %%dx, %%al"
             : "=a"(result)
             : "d"(port));
     return result;
 }
 
-void port_byte_out(u16 port, u8 data)
+void port_byte_out(uint16_t port, uint8_t data)
 {
     /*
      * Both registers are mapped to C variables
      * Output section is empty
      */
-    __asm__("out %%al, %%dx"
+    asm volatile("out %%al, %%dx"
             :
             : "a"(data), "d"(port));
 }
 
-u16 port_word_in(u16 port)
+uint16_t port_word_in(uint16_t port)
 {
-    u16 result;
-    __asm__("in %%dx, %%ax"
+    uint16_t result;
+    asm("in %%dx, %%ax"
             : "=a"(result)
             : "d"(port));
     return result;
 }
 
-void port_word_out(u16 port, u16 data)
+void port_word_out(uint16_t port, uint16_t data)
 {
-    __asm__("out %%ax, %%dx"
+    asm volatile("out %%ax, %%dx"
             :
             : "a"(data), "d"(port));
 }

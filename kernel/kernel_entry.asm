@@ -6,9 +6,13 @@
 
 ; Ensures that we directly jump to kernel main function
 
+global _start;
+
 [bits 32]       ; We're in protected mode by now
-[extern main]   ; Declare that we'll be referencing external symbol 'main'
+
+_start:
+[extern kmain]   ; Declare that we'll be referencing external symbol 'main'
                 ; so the linker can substitute the final address
 
-call main       ; invoke main() in our C kernel
+call kmain       ; invoke kmain() in our C kernel
 jmp $           ; Hang forever when we return from kernel

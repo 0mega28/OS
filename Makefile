@@ -5,8 +5,7 @@ HEADERS = $(wildcard kernel/*.h drivers/*.h cpu/*.h libc/*.h)
 # Convert the *.c filenames to *.o to give a list of object files to build
 OBJ = ${C_SOURCES:.c=.o cpu/interrupt.o}
 
-CFLAGS = -g -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
-		 -nostartfiles -nodefaultlibs -Wall -Wextra -Werror
+CFLAGS = -g -ffreestanding -Wall -Wextra -fno-exceptions -m32
 
 # Default build target
 all: os.img
@@ -24,11 +23,11 @@ os.img: boot/boot_sect.bin kernel.bin
 #	- the kernel_entry, which jumps to main in our kernel
 #	- the compile C kernel
 kernel.bin: kernel/kernel_entry.o ${OBJ}
-	i686-elf-ld -o $@ -Ttext 0x1000 $^ --oformat binary -e main
+	i686-elf-ld -o $@ -Ttext 0x1000 $^ --oformat binary
 
 # Generic rule to compile C code to an object file
 %.o: %.c ${HEADERS}
-	i686-elf-gcc ${CFLAGS} -ffreestanding -c $< -o $@
+	i686-elf-gcc ${CFLAGS} -c $< -o $@
 
 # Assemble kernel_entry
 %.o: %.asm
@@ -50,7 +49,7 @@ kernel.dis: kernel.bin
 
 # Used for debugging purposes
 kernel.elf: kernel/kernel_entry.o ${OBJ}
-	i686-elf-ld -o $@ -Ttext 0x1000 $^ -e main
+	i686-elf-ld -o $@ -Ttext 0x1000 $^
 
 # Open the connection to QEmu and load our kernel-object file with symbols
 # The -s option will make QEMU listen for an incoming connection from gdb on TCP port 1234

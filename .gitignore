@@ -6,6 +6,7 @@ disk.img
 *.o
 *.dis
 os-image
+os.img
 
 # Track them after doing some work
 notes.txt
