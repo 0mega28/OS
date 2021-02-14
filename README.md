@@ -1,6 +1,6 @@
 # Create an OS from scratch
 
-#### I have always wanted to boot OS from scratch.
+ I have always wanted to boot OS from scratch. In this project we are bootstraping kernel via a simple boot sector which switches to 32-bit protected mode from 16-bit real mode and loads the kernel into memory and then calls the kernel code.
 
 <br/>
 
@@ -8,6 +8,8 @@
 -   Boot from scratch
 -   Enter 32-bit Protected mode
 -   Jump from assembly to C
+-   Interrupt handling
+-   Keyboard input and output
 
 <br/>
 
@@ -21,14 +23,29 @@
 │   ├── print_string.asm
 │   ├── print_string_pm.asm
 │   └── switch_to_pm.asm
+├── cpu
+│   ├── idt.c
+│   ├── idt.h
+│   ├── interrupt.asm
+│   ├── isr.c
+│   ├── isr.h
+│   ├── timer.c
+│   ├── timer.h
+│   └── types.h
+├── cross-compiler.sh
 ├── drivers
+│   ├── keyboard.c
+│   ├── keyboard.h
 │   ├── ports.c
 │   ├── ports.h
 │   ├── screen.c
 │   └── screen.h
+├── get_kernel_size
 ├── kernel
 │   ├── kernel.c
-│   └── kernel_entry.asm
+│   ├── kernel_entry.asm
+│   ├── util.c
+│   └── util.h
 ├── Makefile
 ```
 
@@ -39,8 +56,11 @@
 ## Build
 
 ```bash
-$ make 
-$ make run
+$ sudo apt install nasm     # Netwide Assembler
+$ sudo apt install qemu     # CPU emulator
+$ sudo apt install make     # Build system
+$ ./cross-compiler          # Builds the cross compiler 
+$ make run                  # Build and Run
 ```
 
 <br/>
@@ -56,6 +76,3 @@ Nick Blundell](https://www.cs.bham.ac.uk/~exr/lectures/opsys/10_11/lectures/os-d
 -   https://wiki.osdev.org/Meaty_Skeleton
 
 <br/>
-
-## PS
-I should have made symbolic links to the routines from /Practice but I forgot :D 
