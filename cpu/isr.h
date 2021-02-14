@@ -82,6 +82,7 @@ typedef struct {
 
 void isr_install();
 void isr_handler(registers_t r);
+void irq_install();
 
 /* Alias for function pointer which takes arg register_t and return type is void */
 typedef void (*isr_t)(registers_t);

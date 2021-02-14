@@ -1,20 +1,23 @@
 # Automatically generate lists of source using wildcards.
-C_SOURCES = $(wildcard kernel/*.c drivers/*.c cpu/*.c)
-HEADERS = $(wildcard kernel/*.h drivers/*.h cpu/*.h)
+C_SOURCES = $(wildcard kernel/*.c drivers/*.c cpu/*.c libc/*.c)
+HEADERS = $(wildcard kernel/*.h drivers/*.h cpu/*.h libc/*.h)
 
 # Convert the *.c filenames to *.o to give a list of object files to build
 OBJ = ${C_SOURCES:.c=.o cpu/interrupt.o}
 
+CFLAGS = -g -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
+		 -nostartfiles -nodefaultlibs -Wall -Wextra -Werror
+
 # Default build target
-all: os-image
+all: os.img
 
 # Run
 run: all
-	qemu-system-i386 -drive format=raw,file=os-image -monitor stdio
+	qemu-system-i386 -drive format=raw,file=os.img -monitor stdio
 
 # This is the actual disk image that our computer loads
 # which is the combination of our compiled bootsector and kernel
-os-image: boot/boot_sect.bin kernel.bin
+os.img: boot/boot_sect.bin kernel.bin
 	cat $^ > $@
 
 # This builds the binary of our kernel from two object files:
@@ -25,7 +28,7 @@ kernel.bin: kernel/kernel_entry.o ${OBJ}
 
 # Generic rule to compile C code to an object file
 %.o: %.c ${HEADERS}
-	i686-elf-gcc -g -ffreestanding -c $< -o $@
+	i686-elf-gcc ${CFLAGS} -ffreestanding -c $< -o $@
 
 # Assemble kernel_entry
 %.o: %.asm
@@ -39,7 +42,7 @@ clean:
 	find . -name "*.bin" -type f -delete
 	find . -name "*.elf" -type f -delete
 	find . -name "*.dis" -type f -delete
-	rm os-image
+	rm os.img
 
 # Disassemble our kernel (Useful for debugging)
 kernel.dis: kernel.bin
@@ -47,12 +50,12 @@ kernel.dis: kernel.bin
 
 # Used for debugging purposes
 kernel.elf: kernel/kernel_entry.o ${OBJ}
-	i686-elf-ld -o $@ -Ttext 0x1000 $^ 
+	i686-elf-ld -o $@ -Ttext 0x1000 $^ -e main
 
 # Open the connection to QEmu and load our kernel-object file with symbols
 # The -s option will make QEMU listen for an incoming connection from gdb on TCP port 1234
 # -S will make QEMU not start the guest until you tell it to from gdb. 
 # To setup breakpoint try b main:line_number or b kernel.c:line_number
-debug: os-image kernel.elf
-	qemu-system-i386 -s -S os-image &
+debug: os.img kernel.elf
+	qemu-system-i386 -s -S os.img &
 	gdb -ex "target remote localhost:1234" -ex "symbol-file kernel.elf" -ex "b main" -ex "continue"
