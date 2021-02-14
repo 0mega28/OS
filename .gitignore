@@ -1,0 +1,13 @@
+os-dev.pdf
+disk.img
+.vscode
+*.bin
+*.elf
+*.o
+*.dis
+os-image
+
+# Track them after doing some work
+notes.txt
+memory_layout.png
+FAQ.txt
