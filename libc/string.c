@@ -64,7 +64,28 @@ int strcmp(char s1[], char s2[])
 {
     int i;
     for (i = 0; s1[i] == s2[i]; i++)
-        if (s1[i] == '\0') return 0;
+        if (s1[i] == '\0')
+            return 0;
 
     return s1[i] - s2[i];
+}
+
+void hex_to_ascii(int n, char str[])
+{
+    append(str, '0');
+    append(str, 'x');
+
+    int tmp;
+    for (int i = 28; i >= 0; i -= 4)
+    {
+        if (i != 0)
+            tmp = (n >> i) & 0xF;
+        else
+            tmp = n & 0xF;
+
+        if (tmp >= 0xA)
+            append(str, tmp - 0xA + 'A');
+        else
+            append(str, tmp + '0');
+    }
 }
