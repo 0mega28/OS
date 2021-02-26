@@ -1,6 +1,10 @@
 # Create an OS from scratch
 
- I have always wanted to boot OS from scratch. In this project we are bootstraping kernel via a simple boot sector which switches to 32-bit protected mode from 16-bit real mode and loads the kernel into memory and then calls the kernel code.
+ - I have always wanted to boot OS from scratch.
+ 
+ - In this project we are bootstraping kernel via a simple boot sector which loads the kernel into memory, then loadg gdt and switches to 32-bit protected mode from 16-bit real mode and then calls the kernel code.
+ 
+ - Kernel sets up the interrupt descriptor table, initializes timer and keyboard interrupt.
 
 <br/>
 
@@ -10,6 +14,7 @@
 -   Jump from assembly to C
 -   Interrupt handling
 -   Keyboard input and output
+-   A basic libc
 
 <br/>
 
@@ -20,6 +25,7 @@
 │   ├── boot_sect.asm
 │   ├── disk_load.asm
 │   ├── gdt.asm
+│   ├── print_hex.asm
 │   ├── print_string.asm
 │   ├── print_string_pm.asm
 │   └── switch_to_pm.asm
@@ -29,6 +35,10 @@
 │   ├── interrupt.asm
 │   ├── isr.c
 │   ├── isr.h
+│   ├── paging.c
+│   ├── paging.h
+│   ├── ports.c
+│   ├── ports.h
 │   ├── timer.c
 │   ├── timer.h
 │   └── types.h
@@ -36,16 +46,19 @@
 ├── drivers
 │   ├── keyboard.c
 │   ├── keyboard.h
-│   ├── ports.c
-│   ├── ports.h
 │   ├── screen.c
 │   └── screen.h
 ├── get_kernel_size
 ├── kernel
 │   ├── kernel.c
 │   ├── kernel_entry.asm
-│   ├── util.c
-│   └── util.h
+│   └── kernel.h
+├── libc
+│   ├── function.h
+│   ├── mem.c
+│   ├── mem.h
+│   ├── string.c
+│   └── string.h
 ├── Makefile
 ```
 
