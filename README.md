@@ -15,6 +15,7 @@
 -   Interrupt handling
 -   Keyboard input and output
 -   A basic libc
+-	Virtual memory (Paging)
 
 <br/>
 

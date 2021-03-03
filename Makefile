@@ -6,6 +6,7 @@ HEADERS = $(wildcard kernel/*.h drivers/*.h cpu/*.h libc/*.h)
 OBJ = ${C_SOURCES:.c=.o cpu/interrupt.o}
 
 CFLAGS = -g -ffreestanding -Wall -Wextra -fno-exceptions -m32
+LDFLAGS = -Tlinker.ld
 
 # Default build target
 all: os.img
@@ -23,7 +24,7 @@ os.img: boot/boot_sect.bin kernel.bin
 #	- the kernel_entry, which jumps to main in our kernel
 #	- the compile C kernel
 kernel.bin: kernel/kernel_entry.o ${OBJ}
-	i686-elf-ld -o $@ -Ttext 0x1000 $^ --oformat binary
+	i686-elf-ld -o $@ ${LDFLAGS} $^ --oformat binary
 
 # Generic rule to compile C code to an object file
 %.o: %.c ${HEADERS}
@@ -49,7 +50,7 @@ kernel.dis: kernel.bin
 
 # Used for debugging purposes
 kernel.elf: kernel/kernel_entry.o ${OBJ}
-	i686-elf-ld -o $@ -Ttext 0x1000 $^
+	i686-elf-ld -o $@ ${LDFLAGS} $^
 
 # Open the connection to QEmu and load our kernel-object file with symbols
 # The -s option will make QEMU listen for an incoming connection from gdb on TCP port 1234
@@ -57,4 +58,4 @@ kernel.elf: kernel/kernel_entry.o ${OBJ}
 # To setup breakpoint try b main:line_number or b kernel.c:line_number
 debug: os.img kernel.elf
 	qemu-system-i386 -s -S os.img &
-	gdb -ex "target remote localhost:1234" -ex "symbol-file kernel.elf" -ex "b main" -ex "continue"
+	gdb -ex "target remote localhost:1234" -ex "symbol-file kernel.elf" -ex "b kmain" -ex "continue"
