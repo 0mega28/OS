@@ -8,6 +8,8 @@
 
 global _start;
 
+section .text.entry
+
 [bits 32]       ; We're in protected mode by now
 
 _start:
