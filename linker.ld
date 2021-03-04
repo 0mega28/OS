@@ -3,32 +3,31 @@ ENTRY(_start)
 /* OUTPUT(kernel.bin) */
 
 SECTIONS {
-    . = 0x1000;
-
     begin = .; _begin = .; __begin = .;
 
-    .text : SUBALIGN(16)
+    .text 0x1000 :
     {
         code = .; _code = .; __code = .;
         *(.text.entry) 
         *(.text)
+		. = ALIGN(4096);
     }
 
-    .data : SUBALIGN(16)
+    .data :
     {
         data = .; _data = .; __data = .;
         *(.rodata)
         *(.data)
+		. = ALIGN(4096);
     }
 
-    .bss : SUBALIGN(16)
+    .bss :
     {
         bss = .; _bss = .; __bss = .;
         *(COMMON)
         *(.bss)
+		. = ALIGN(4096);
     }
 	
-	. = ALIGN(4000);
-
     end = .; _end = .; __end = .;
 }
