@@ -4,7 +4,7 @@
  
  - In this project we are bootstraping kernel via a simple boot sector which loads the kernel into memory, then loadg gdt and switches to 32-bit protected mode from 16-bit real mode and then calls the kernel code.
  
- - Kernel sets up the interrupt descriptor table, initializes timer and keyboard interrupt.
+ - Kernel sets up the interrupt descriptor table, initializes timer, keyboard interrupt and paging.
 
 <br/>
 
@@ -62,8 +62,6 @@
 │   └── string.h
 ├── Makefile
 ```
-
-`/Practice` contains chunks of routines used to actually boot
 
 <br/>
 
