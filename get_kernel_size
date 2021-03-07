@@ -1,4 +1,4 @@
 #!/bin/bash
 
 make kernel.elf > /dev/null
-expr $((16#`objdump -x kernel.elf | grep filesz | head -n 1 | xargs | cut -d " " -f 2 | cut -d "x" -f 2`)) / 512 + 1
+expr $((16#`i686-elf-objdump -x kernel.elf | grep filesz | head -n 1 | xargs | cut -d " " -f 2 | cut -d "x" -f 2`)) / 512

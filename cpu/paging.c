@@ -19,7 +19,7 @@ uint32_t *frames;
 /* Number of frames */
 uint32_t no_of_frames;
 
-/* Defined in kheap.c, this is end of kernel address */
+/* Defined in kheap.c, this is end of kernel address(not now) */
 extern uint32_t placement_address;
 
 /* Macros used in bitset */
@@ -203,7 +203,7 @@ uint32_t first_frame()
 					return i * 8 * 4 + j;
 			}
 
-	return UINT32_MAX - 1; /* If no frame availalbe */
+	return UINT32_MAX - 1; /* If no frame available */
 }
 
 void alloc_frame(page_t *page, int is_kernel, int is_writeable)

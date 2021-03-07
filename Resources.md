@@ -37,14 +37,14 @@
 
 # Miscellaneous
 
-### [Real mode](https://wiki.osdev.org/Real_Mode)
+-	### [Real mode](https://wiki.osdev.org/Real_Mode)
 
-### [Protected mode](https://wiki.osdev.org/Protected_Mode)
+-	### [Protected mode](https://wiki.osdev.org/Protected_Mode)
 
-### [Why do I need a cross compiler](https://web.archive.org/web/20160405224638/http://wiki.osdev.org/Why_do_I_need_a_Cross_Compiler)
+-	### [Why do I need a cross compiler](https://web.archive.org/web/20160405224638/http://wiki.osdev.org/Why_do_I_need_a_Cross_Compiler)
 
-### [Inline Assembly](https://wiki.osdev.org/Inline_Assembly)
+-	### [Inline Assembly](https://wiki.osdev.org/Inline_Assembly)
 
-### [Linker script](https://wiki.osdev.org/Linker_Scripts)
+-	### [Linker script](https://wiki.osdev.org/Linker_Scripts)
 
-### [James Malloy's tutorial known bugs](https://wiki.osdev.org/James_Molloy's_Tutorial_Known_Bugs#Problem:_main_function)
+-	### [James Malloy's tutorial known bugs](https://wiki.osdev.org/James_Molloy's_Tutorial_Known_Bugs#Problem:_main_function)

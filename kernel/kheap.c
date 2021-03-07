@@ -1,17 +1,13 @@
 #include "kheap.h"
 
-/* End is defined in the linker script */
+/* extern uint32_t end;
+uint32_t placement_address = (uint32_t)&end;
 
-/* Currently not using this as placement address */
+End is defined in the linker script
+Currently not using this as placement address
 
-/*
 Why we are taking address of "end"
 read it here https://wiki.osdev.org/Using_Linker_Script_Values
- */
-
-/* 
-extern uint32_t end;
-uint32_t placement_address = (uint32_t)&end;
  */
 
 uint32_t placement_address = 0x100000;
