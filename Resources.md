@@ -2,6 +2,11 @@
 
 ### [Introduction](https://wiki.osdev.org/Introduction)
 
+### The Booting Process
+
+-	http://www.osdever.net/tutorials/view/booting-process
+-	http://www.osdever.net/tutorials/view/the-booting-process
+
 ### Bare bones tutorial
 -	[Writing your own bootloader](https://www.cs.bham.ac.uk/~exr/lectures/opsys/10_11/lectures/os-dev.pdf)
 -	[Using GRUB as bootloader](https://wiki.osdev.org/Bare_Bones)
