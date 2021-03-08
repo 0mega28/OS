@@ -11,13 +11,22 @@ void kmain()
     irq_install();
 	initialise_paging();
 
-	extern uint32_t end;
+	/* To get the placement address after 
+	initialising paging */
+	extern uint32_t placement_address;
 	char buffer[10];
+	hex_to_ascii(placement_address, buffer);
+	kprint(buffer);
+	kprint("\n");
+
+	buffer[0] = '\0';
+
+	extern uint32_t end;
 	hex_to_ascii((uint32_t)&end, buffer);
 	kprint(buffer);
 	kprint("\n");
 	
-	uint32_t *ptr = (uint32_t*) 0xFFFF0000;
+	uint32_t *ptr = (uint32_t*) 0x105001;
 	uint32_t do_page_fault = *ptr;
 	UNUSED(do_page_fault);
 

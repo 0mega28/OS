@@ -66,15 +66,18 @@ void initialise_paging()
 	frames = (uint32_t *)kmalloc(INDEX_BITSET(no_of_frames));
 
 	/* Setting bitmap */
-	memory_set((uint8_t*)frames, 0, INDEX_BITSET(no_of_frames));
+	/* Since we are typecasting frames pointer to uint8_t 
+	we have to multiply len argument in memory_set function by 4 */
+	memory_set((uint8_t *)frames, 0, INDEX_BITSET(no_of_frames) * (sizeof(uint32_t) / sizeof(uint8_t)));
 
 	/* Make page directory */
 	kernel_directory = (page_directory_t *)kmalloc_a(sizeof(page_directory_t));
+	memory_set((uint8_t *)kernel_directory, 0, sizeof(page_directory_t) * ((sizeof(page_directory_t) / sizeof(uint8_t))));
 	current_directory = kernel_directory;
 
 	for (uint32_t i = 0; i < placement_address; i += 0x1000)
 		/* Kernel code is readable but not writeable from userspace */
-		alloc_frame(get_page(i, 1, kernel_directory), 1, 0);
+		alloc_frame(get_page(i, 1, kernel_directory), 0, 0);
 
 	/* Register page_fault handler */
 	register_interrupt_handler(14, page_fault);
@@ -116,7 +119,7 @@ page_t *get_page(uint32_t address, int make, page_directory_t *dir)
 		uint32_t tmp;
 		dir->tables[table_idx] = (page_table_t *)kmalloc_ap(sizeof(page_table_t), &tmp);
 		dir->tablePhysical[table_idx] = tmp | 0x7; /* Present RW, US */
-		memory_set((uint8_t *)dir->tables[table_idx], 0, 0x1000);
+		memory_set((uint8_t *)dir->tables[table_idx], 0, 0x1000 * (sizeof(page_table_t) / sizeof(uint8_t)));
 		return &dir->tables[table_idx]->pages[address % 1024];
 	}
 
@@ -133,10 +136,10 @@ void page_fault(registers_t *regs)
 
 	/* 	The error code gives us details of what happened. */
 	int present = !(regs->err_code & 0x1); // Page not present
-	int rw = regs->err_code & 0x2;		  // Write operation?
-	int us = regs->err_code & 0x4;		  // Processor was in user-mode?
-	int reserved = regs->err_code & 0x8;	  // Overwritten CPU-reserved bits of page entry?
-	int id = regs->err_code & 0x10;		  // Caused by an instruction fetch?
+	int rw = regs->err_code & 0x2;		   // Write operation?
+	int us = regs->err_code & 0x4;		   // Processor was in user-mode?
+	int reserved = regs->err_code & 0x8;   // Overwritten CPU-reserved bits of page entry?
+	int id = regs->err_code & 0x10;		   // Caused by an instruction fetch?
 	UNUSED(id);
 
 	/* Output an error message. */

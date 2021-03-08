@@ -1,21 +1,22 @@
 # Create an OS from scratch
 
- - I have always wanted to boot OS from scratch.
- 
- - In this project we are bootstraping kernel via a simple boot sector which loads the kernel into memory, then loadg gdt and switches to 32-bit protected mode from 16-bit real mode and then calls the kernel code.
- 
- - Kernel sets up the interrupt descriptor table, initializes timer, keyboard interrupt and paging.
+-   I have always wanted to boot OS from scratch.
+
+-   In this project we are bootstraping kernel via a simple boot sector which loads the kernel into memory, then loadg gdt and switches to 32-bit protected mode from 16-bit real mode and then calls the kernel code.
+
+-   Kernel sets up the interrupt descriptor table, initializes timer, keyboard interrupt and paging.
 
 <br/>
 
 ## Things which are done
+
 -   Boot from scratch
 -   Enter 32-bit Protected mode
 -   Jump from assembly to C
 -   Interrupt handling
 -   Keyboard input and output
 -   A basic libc
--	Virtual memory (Paging)
+-   Virtual memory (Paging)
 
 <br/>
 
@@ -68,20 +69,21 @@
 ## Build
 
 ```bash
-$ sudo apt install nasm     # Netwide Assembler
-$ sudo apt install qemu     # CPU emulator
-$ sudo apt install make     # Build system
-$ ./cross-compiler          # Builds the cross compiler 
-$ make run                  # Build and Run
+$ sudo apt install nasm     		# Netwide Assembler
+$ sudo apt install qemu-system-x86 	# CPU emulator
+$ sudo apt install make     		# Build system
+$ ./cross-compiler          		# Builds the cross compiler
+$ make run                  		# Build and Run
 ```
 
 <br/>
 
-## Resources 
--	[Resources](Resources.md)
+## Resources
+
+-   [Resources](Resources.md)
 -   [Writing a Simple Operating System —
-from Scratch -by
-Nick Blundell](https://www.cs.bham.ac.uk/~exr/lectures/opsys/10_11/lectures/os-dev.pdf)
+    from Scratch -by
+    Nick Blundell](https://www.cs.bham.ac.uk/~exr/lectures/opsys/10_11/lectures/os-dev.pdf)
 -   https://github.com/cfenollosa/os-tutorial
 -   https://github.com/acmiitr/KSOS
 -   http://www.brokenthorn.com/Resources/OSDevIndex.html
