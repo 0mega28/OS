@@ -66,13 +66,11 @@ void initialise_paging()
 	frames = (uint32_t *)kmalloc(INDEX_BITSET(no_of_frames));
 
 	/* Setting bitmap */
-	/* Since we are typecasting frames pointer to uint8_t 
-	we have to multiply len argument in memory_set function by 4 */
-	memory_set((uint8_t *)frames, 0, INDEX_BITSET(no_of_frames) * (sizeof(uint32_t) / sizeof(uint8_t)));
+	memory_set((uint8_t *)frames, 0, INDEX_BITSET(no_of_frames));
 
 	/* Make page directory */
 	kernel_directory = (page_directory_t *)kmalloc_a(sizeof(page_directory_t));
-	memory_set((uint8_t *)kernel_directory, 0, sizeof(page_directory_t) * ((sizeof(page_directory_t) / sizeof(uint8_t))));
+	memory_set((uint8_t *)kernel_directory, 0, sizeof(page_directory_t));
 	current_directory = kernel_directory;
 
 	for (uint32_t i = 0; i < placement_address; i += 0x1000)
@@ -119,7 +117,7 @@ page_t *get_page(uint32_t address, int make, page_directory_t *dir)
 		uint32_t tmp;
 		dir->tables[table_idx] = (page_table_t *)kmalloc_ap(sizeof(page_table_t), &tmp);
 		dir->tablePhysical[table_idx] = tmp | 0x7; /* Present RW, US */
-		memory_set((uint8_t *)dir->tables[table_idx], 0, 0x1000 * (sizeof(page_table_t) / sizeof(uint8_t)));
+		memory_set((uint8_t *)dir->tables[table_idx], 0, 0x1000);
 		return &dir->tables[table_idx]->pages[address % 1024];
 	}
 
