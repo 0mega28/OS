@@ -12,8 +12,8 @@ SECTIONS {
         *(.text)
 		. = ALIGN(4096);
     }
-
-    .data :
+    
+	.data :
     {
         data = .; _data = .; __data = .;
         *(.rodata)
@@ -29,5 +29,12 @@ SECTIONS {
 		. = ALIGN(4096);
     }
 	
+	/* Remove Unneeded sections */
+	/DISCARD/ :
+	{            
+        *(.eh_frame);
+        *(.comment);
+    }
+
     end = .; _end = .; __end = .;
 }
