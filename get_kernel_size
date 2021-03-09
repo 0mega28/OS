@@ -1,4 +1,14 @@
 #!/bin/bash
 
 make kernel.elf > /dev/null
-expr $((16#`i686-elf-objdump -x kernel.elf | grep filesz | head -n 1 | xargs | cut -d " " -f 2 | cut -d "x" -f 2`)) / 512
+
+text_section_size=`i686-elf-size -d kernel.elf | tail -n 1 | xargs | cut --delimiter=" " --fields=1`
+data_section_size=`i686-elf-size -d kernel.elf | tail -n 1 | xargs | cut --delimiter=" " --fields=2`
+
+total_size=`expr ${text_section_size} + ${data_section_size}`
+
+sector_size=`expr ${total_size} / 512`
+
+echo $sector_size
+
+exit
