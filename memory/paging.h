@@ -2,9 +2,8 @@
 #define PAGING_H
 
 #include <stdint.h>
-#include "isr.h"
 #include "../libc/function.h"
-#include "../kernel/kheap.h"
+#include "kheap.h"
 #include "../libc/mem.h"
 #include "../cpu/isr.h"
 
