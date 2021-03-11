@@ -41,9 +41,6 @@ uint32_t test_frame(uint32_t frame_address);
 /* Function to find first free frame in bitset */
 uint32_t first_frame();
 
-/* Function to allocate a frame */
-void alloc_frame(page_t *page, int is_kernel, int is_writeable);
-
 /* Function to deallocate a frame */
 void free_frame(page_t *page);
 
@@ -122,6 +119,25 @@ page_t *get_page(uint32_t address, int make, page_directory_t *dir)
 	}
 
 	return 0;
+}
+
+void alloc_frame(page_t *page, int is_kernel, int is_writeable)
+{
+	if (page->frame != 0)
+		return; /* It's already allocated */
+	else
+	{
+		uint32_t idx = first_frame();
+
+		if (idx == (UINT32_MAX - 1))
+			PANIC("No free frames!!");
+
+		set_frame(idx * 0x1000);
+		page->present = 1;
+		page->rw = (is_writeable) ? 1 : 0;
+		page->user = (is_kernel) ? 0 : 1;
+		page->frame = idx;
+	}
 }
 
 void page_fault(registers_t *regs)
@@ -205,25 +221,6 @@ uint32_t first_frame()
 			}
 
 	return UINT32_MAX - 1; /* If no frame available */
-}
-
-void alloc_frame(page_t *page, int is_kernel, int is_writeable)
-{
-	if (page->frame != 0)
-		return; /* It's already allocated */
-	else
-	{
-		uint32_t idx = first_frame();
-
-		if (idx == (UINT32_MAX - 1))
-			PANIC("No free frames!!");
-
-		set_frame(idx * 0x1000);
-		page->present = 1;
-		page->rw = (is_writeable) ? 1 : 0;
-		page->user = (is_kernel) ? 0 : 1;
-		page->frame = idx;
-	}
 }
 
 void free_frame(page_t *page)
