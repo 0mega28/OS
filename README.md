@@ -17,51 +17,62 @@
 -   Keyboard input and output
 -   A basic libc
 -   Virtual memory (Paging)
+-	Ordered array data structure
 
 <br/>
 
 ## Directory structure
 
 ```
+.
 ├── boot
-│   ├── boot_sect.asm
-│   ├── disk_load.asm
-│   ├── gdt.asm
-│   ├── print_hex.asm
-│   ├── print_string.asm
-│   ├── print_string_pm.asm
-│   └── switch_to_pm.asm
+│   ├── boot_sect.asm
+│   ├── disk_load.asm
+│   ├── gdt.asm
+│   ├── print_hex.asm
+│   ├── print_string.asm
+│   ├── print_string_pm.asm
+│   └── switch_to_pm.asm
 ├── cpu
-│   ├── idt.c
-│   ├── idt.h
-│   ├── interrupt.asm
-│   ├── isr.c
-│   ├── isr.h
-│   ├── paging.c
-│   ├── paging.h
-│   ├── ports.c
-│   ├── ports.h
-│   ├── timer.c
-│   ├── timer.h
-│   └── types.h
+│   ├── idt.c
+│   ├── idt.h
+│   ├── interrupt.asm
+│   ├── isr.c
+│   ├── isr.h
+│   ├── ports.c
+│   ├── ports.h
+│   ├── timer.c
+│   ├── timer.h
+│   └── types.h
 ├── cross-compiler.sh
 ├── drivers
-│   ├── keyboard.c
-│   ├── keyboard.h
-│   ├── screen.c
-│   └── screen.h
+│   ├── keyboard.c
+│   ├── keyboard.h
+│   ├── screen.c
+│   └── screen.h
 ├── get_kernel_size
 ├── kernel
-│   ├── kernel.c
-│   ├── kernel_entry.asm
-│   └── kernel.h
+│   ├── kernel.c
+│   ├── kernel_entry.asm
+│   └── kernel.h
 ├── libc
-│   ├── function.h
-│   ├── mem.c
-│   ├── mem.h
-│   ├── string.c
-│   └── string.h
+│   ├── function.c
+│   ├── function.h
+│   ├── mem.c
+│   ├── mem.h
+│   ├── ordered_array.c
+│   ├── ordered_array.h
+│   ├── string.c
+│   └── string.h
+├── linker.ld
 ├── Makefile
+├── memory
+│   ├── kheap.c
+│   ├── kheap.h
+│   ├── paging.c
+│   └── paging.h
+├── README.md
+└── Resources.md
 ```
 
 <br/>
