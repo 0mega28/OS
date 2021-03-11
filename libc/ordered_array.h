@@ -13,6 +13,9 @@
 #define ORDERED_ARRAY_H
 
 #include <stdint.h>
+#include "../memory/kheap.h"
+#include "../libc/function.h"
+#include "../libc/mem.h"
 
 /* Returns 1 if first argument is less than second argument
 	else return 0
