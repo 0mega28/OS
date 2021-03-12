@@ -63,9 +63,10 @@ page_t *get_page(uint32_t address, int make, page_directory_t *dir);
 /* Function to allocate a frame */
 void alloc_frame(page_t *page, int is_kernel, int is_writeable);
 
-/* 
-    Handler for page faults.
-*/
+/* Function to deallocate a frame */
+void free_frame(page_t *page);
+
+/* Handler for page faults. */
 void page_fault(registers_t *regs);
 
 #endif

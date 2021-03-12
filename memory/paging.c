@@ -41,9 +41,6 @@ uint32_t test_frame(uint32_t frame_address);
 /* Function to find first free frame in bitset */
 uint32_t first_frame();
 
-/* Function to deallocate a frame */
-void free_frame(page_t *page);
-
 /* Exposed function */
 
 /* Kernel's page directory */
@@ -140,6 +137,17 @@ void alloc_frame(page_t *page, int is_kernel, int is_writeable)
 	}
 }
 
+void free_frame(page_t *page)
+{
+	uint32_t frame = page->frame;
+
+	if (!frame)
+		return; /* Already free */
+
+	clear_frame(frame);
+	page->frame = 0x0;
+}
+
 void page_fault(registers_t *regs)
 {
 	/* A page fault has occurred.
@@ -223,13 +231,3 @@ uint32_t first_frame()
 	return UINT32_MAX - 1; /* If no frame available */
 }
 
-void free_frame(page_t *page)
-{
-	uint32_t frame = page->frame;
-
-	if (!frame)
-		return; /* Already free */
-
-	clear_frame(frame);
-	page->frame = 0x0;
-}
