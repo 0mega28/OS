@@ -16,4 +16,7 @@
 extern void panic(char *message, char *file, uint32_t line);
 extern void panic_assert(char *file, uint32_t line, char *description);
 
+/* Align the address according to page if not already aligned */
+void page_align(uint32_t *address);
+
 #endif

@@ -36,3 +36,12 @@ extern void panic_assert(char *file, uint32_t line, char *description)
 	while (1)
 		;
 }
+
+void page_align(uint32_t *address)
+{
+	if(*address & 0x00000FFF)
+	{
+		*address &= 0xFFFFF000;
+		*address += 0x1000;
+	}
+}
