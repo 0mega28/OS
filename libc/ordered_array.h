@@ -13,7 +13,6 @@
 #define ORDERED_ARRAY_H
 
 #include <stdint.h>
-// #include "../memory/kheap.h"
 #include "../libc/function.h"
 #include "../libc/mem.h"
 
