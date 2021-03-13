@@ -34,7 +34,6 @@ uint32_t contract(uint32_t new_size, heap_t *heap);
 
 void modify_index_array_after_heap_expantion(uint32_t old_size, heap_t *heap);
 
-
 uint32_t kmalloc_int(uint32_t size, int align, uint32_t *phys)
 {
 	if (kheap != 0)
@@ -161,7 +160,7 @@ void *alloc(uint32_t size, uint8_t align, heap_t *heap)
 	}
 
 	/* 	If we need to page-align the data, do it now and make a new hole in front of our block.*/
-	if (align && orig_hole_pos & 0xFFFFF000)
+	if (align && (orig_hole_pos & 0x00000FFF))
 	{
 		uint32_t new_location = orig_hole_pos + 0x1000 /* page size */ - (orig_hole_pos & 0xFFF) - sizeof(header_t);
 		header_t *hole_header = (header_t *)orig_hole_pos;
@@ -186,20 +185,19 @@ void *alloc(uint32_t size, uint8_t align, heap_t *heap)
 	block_header->is_hole = 0;
 	block_header->size = required_size;
 	/* ...And the footer */
-	footer_t *block_footer = (footer_t *)(orig_hole_pos + sizeof(header_t) + size);
+	footer_t *block_footer = (footer_t *)((uint32_t)block_header + block_header->size - sizeof(footer_t));
 	block_footer->magic_number = KHEAP_MAGIC;
 	block_footer->header = block_header;
 
-	/* We may need to write a new hole after the allocated block.
-	We do this only if the new hole would have positive size... */
+	/* We may need to write a new hole after the allocated block.*/
 	if (orig_hole_size - required_size > 0)
 	{
-		header_t *hole_header = (header_t *)(orig_hole_pos + sizeof(header_t) + size + sizeof(footer_t));
+		header_t *hole_header = (header_t *)(orig_hole_pos + required_size);
 		hole_header->magic_number = KHEAP_MAGIC;
 		hole_header->is_hole = 1;
 		hole_header->size = orig_hole_size - required_size;
-		footer_t *hole_footer = (footer_t *)((uint32_t)hole_header + orig_hole_size - required_size - sizeof(footer_t));
-		if ((uint32_t)hole_footer < heap->end_address)
+		footer_t *hole_footer = (footer_t *)((uint32_t)hole_header + hole_header->size - sizeof(footer_t));
+		if (((uint32_t)hole_footer + sizeof(footer_t)) <= heap->end_address)
 		{
 			hole_footer->magic_number = KHEAP_MAGIC;
 			hole_footer->header = hole_header;
@@ -219,12 +217,12 @@ void free(void *addr, heap_t *heap)
 		return;
 
 	/* Get header and footer */
-	header_t *header = (header_t *)addr;
+	header_t *header = (header_t *)((uint32_t)addr - sizeof(header_t));
 	footer_t *footer = (footer_t *)((uint32_t)header + header->size - sizeof(footer));
 
 	/* Assert by checking magic number */
 	ASSERT(header->magic_number == KHEAP_MAGIC);
-	ASSERT(footer->magic_number == KHEAP_MAGIC);
+	// ASSERT(footer->magic_number == KHEAP_MAGIC);
 
 	/* Mark it as free */
 	header->is_hole = 1;
@@ -245,7 +243,7 @@ void free(void *addr, heap_t *heap)
 	}
 
 	/* Unify Right */
-	header_t *right_header = (header_t *)((uint32_t)footer + sizeof(footer_t));
+	header_t *right_header = (header_t *)((uint32_t)header + header->size);
 	footer_t *right_footer = (footer_t *)((uint32_t)right_header + right_header->size - sizeof(footer_t));
 
 	/* If it is a hole then unify right */
@@ -257,8 +255,8 @@ void free(void *addr, heap_t *heap)
 
 		/* Find right header and delete it */
 		uint32_t iterator = 0;
-		while ((iterator < heap->index_array.size) && (lookup_ordered_array(iterator++, &heap->index_array) != (void *)right_header))
-			;
+		while ((iterator < heap->index_array.size) && (lookup_ordered_array(iterator, &heap->index_array) != (void *)right_header))
+			iterator++;
 
 		ASSERT(iterator < heap->index_array.size);
 		remove_from_ordered_array(iterator, &heap->index_array);
@@ -285,11 +283,12 @@ void free(void *addr, heap_t *heap)
 			/* We will no longer exist, Remove us from the index. */
 			uint32_t iterator = 0;
 			while ((iterator < heap->index_array.size) &&
-				   (lookup_ordered_array(iterator++, &heap->index_array) != (void *)header))
+				   (lookup_ordered_array(iterator, &heap->index_array) != (void *)header))
+				iterator++;
 
-				/* If we didn't find ourselves, we have nothing to remove. */
-				if (iterator < heap->index_array.size)
-					remove_from_ordered_array(iterator, &heap->index_array);
+			/* If we didn't find ourselves, we have nothing to remove. */
+			if (iterator < heap->index_array.size)
+				remove_from_ordered_array(iterator, &heap->index_array);
 		}
 	}
 
