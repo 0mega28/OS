@@ -18,13 +18,13 @@
 -   A basic libc
 -   Virtual memory (Paging)
 -	Ordered array data structure
+-	Memory Manager
 
 <br/>
 
 ## Directory structure
 
 ```
-.
 ├── boot
 │   ├── boot_sect.asm
 │   ├── disk_load.asm

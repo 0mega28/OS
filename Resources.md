@@ -38,6 +38,8 @@
 
 -	[Paging code](http://www.jamesmolloy.co.uk/tutorial_html/6.-Paging.html)
 
+-	[Memory Manager (Kheap)](http://www.jamesmolloy.co.uk/tutorial_html/7.-The%20Heap.html)
+
 <hr>
 
 # Miscellaneous
