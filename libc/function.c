@@ -45,3 +45,11 @@ void page_align(uint32_t *address)
 		*address += 0x1000;
 	}
 }
+
+void wait_for_seconds(int n)
+{
+	extern volatile uint32_t tick;
+	uint32_t start_instance = tick;
+
+	while(tick <= start_instance + n * 50);
+}

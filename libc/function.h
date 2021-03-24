@@ -19,4 +19,7 @@ extern void panic_assert(char *file, uint32_t line, char *description);
 /* Align the address according to page if not already aligned */
 void page_align(uint32_t *address);
 
+/* Function which stops cpu execution for n seconds */
+void wait_for_seconds(int n);
+
 #endif
