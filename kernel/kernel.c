@@ -4,14 +4,17 @@
 #include "../libc/string.h"
 #include "../memory/paging.h"
 #include "../libc/function.h"
+#include "bootanimation.h"
 
 void kmain()
 {
 	isr_install();
 	irq_install();
+	
+	bootanimation();
 
 	initialise_paging();
-	
+
 	kprint("Type END to halt the CPU\nType CLEAR to clear screen\n> ");
 }
 
