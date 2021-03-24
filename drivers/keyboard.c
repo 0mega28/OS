@@ -6,9 +6,12 @@
 #include "../libc/string.h"
 #include "../libc/function.h"
 #include "../kernel/kernel.h"
+#include <stdbool.h>
 
 #define BACKSPACE 0X0E
 #define ENTER 0X1C
+
+extern volatile bool is_busy;
 
 static char key_buffer[256];
 
@@ -31,29 +34,34 @@ static void keyboard_callback(registers_t *regs)
     /* The PIC leaves us the scancode in port 0x60 */
     uint8_t scancode = port_byte_in(0x60);
 
-    if (scancode > SC_MAX)
-        return;
-    else if (scancode == BACKSPACE)
+    if (!is_busy)
     {
-        backspace(key_buffer);
-        kprint_backspace(); 
-    }
-    else if (scancode == ENTER)
-    {
-        kprint("\n");
-        user_input(key_buffer); /* kernel-controlled function */
-        key_buffer[0] = '\0';
-    }
-    else 
-    {
-        char letter = sc_ascii[(int) scancode];
+        if (scancode > SC_MAX)
+            return;
+        else if (scancode == BACKSPACE)
+        {
+            if (strlen(key_buffer) > 0)
+            {
+                backspace(key_buffer);
+                kprint_backspace();
+            }
+        }
+        else if (scancode == ENTER)
+        {
+            kprint("\n");
+            user_input(key_buffer); /* kernel-controlled function */
+            key_buffer[0] = '\0';
+        }
+        else
+        {
+            char letter = sc_ascii[(int)scancode];
 
-        /* kprint accepts char [] */
-        char str[2] = {letter, '\0'};
-        append(key_buffer, letter);
-        kprint(str);
+            /* kprint accepts char [] */
+            char str[2] = {letter, '\0'};
+            append(key_buffer, letter);
+            kprint(str);
+        }
     }
-
     UNUSED(regs);
 }
 

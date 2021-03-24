@@ -5,13 +5,18 @@
 #include "../memory/paging.h"
 #include "../libc/function.h"
 #include "bootanimation.h"
+#include <stdbool.h>
+
+bool is_busy = false;
 
 void kmain()
 {
 	isr_install();
 	irq_install();
-	
+
+	is_busy = true;
 	bootanimation();
+	is_busy = false;
 
 	initialise_paging();
 
