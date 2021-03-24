@@ -56,7 +56,10 @@ void append(char s[], char n)
 void backspace(char s[])
 {
     int len = strlen(s);
-    s[len - 1] = '\0';
+    if (len > 0)
+        s[len - 1] = '\0';
+    else
+        s[0] = '\0';
 }
 
 /* Returns 0 if s1 == s2 */
