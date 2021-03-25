@@ -22,7 +22,7 @@ void kshell()
 {
 	init_header();
 	kprint(shell_name);
-	kprint(">");
+	kprint("> ");
 }
 
 void user_input(char *input)
@@ -63,7 +63,8 @@ void command_help(char *input)
 
 	if (!help)
 		kprint("\tList of commands\n\tNAME END CLEAR HELP\n\tType `HELP NAME` to find more about command NAME\n");
-	else if(strcmp(help, "NAME") == 0) {
+	else if (strcmp(help, "NAME") == 0)
+	{
 		kprint("\tNAME : GIVE ONE ARGUMENT TO CHANGE SHELL NAME\n");
 	}
 
@@ -80,8 +81,8 @@ void command_name(char *input)
 	{
 		memory_copy(name, shell_name, strlen(name));
 		shell_name[strlen(name)] = '\0';
-		kfree(name);
 	}
+	kfree(name);
 }
 
 void command_color(char *input)
@@ -90,10 +91,33 @@ void command_color(char *input)
 
 	if (!color)
 		kprint("1 Argument Required!\n");
-	else if(strcmp(color, "RED") == 0)
+	else if (strcmp(color, "RED") == 0)
 	{
 		color_attribute = (char)vga_entry_color(VGA_COLOR_RED, VGA_COLOR_BLACK);
 		color_vga = VGA_COLOR_RED;
-		kfree(color);
+		change_text_color((uint8_t)color_attribute);
+		fill_row_with_color(vga_entry_color(VGA_COLOR_WHITE, color_vga), 0);
 	}
+	else if (strcmp(color, "GREEN") == 0)
+	{
+		color_attribute = (char)vga_entry_color(VGA_COLOR_GREEN, VGA_COLOR_BLACK);
+		color_vga = VGA_COLOR_GREEN;
+		change_text_color((uint8_t)color_attribute);
+		fill_row_with_color(vga_entry_color(VGA_COLOR_WHITE, color_vga), 0);
+	}
+	else if (strcmp(color, "BLUE") == 0)
+	{
+		color_attribute = (char)vga_entry_color(VGA_COLOR_BLUE, VGA_COLOR_BLACK);
+		color_vga = VGA_COLOR_BLUE;
+		change_text_color((uint8_t)color_attribute);
+		fill_row_with_color(vga_entry_color(VGA_COLOR_WHITE, color_vga), 0);
+	}
+	else if (strcmp(color, "CYAN") == 0)
+	{
+		color_attribute = (char)vga_entry_color(VGA_COLOR_CYAN, VGA_COLOR_BLACK);
+		color_vga = VGA_COLOR_CYAN;
+		change_text_color((uint8_t)color_attribute);
+		fill_row_with_color(vga_entry_color(VGA_COLOR_WHITE, color_vga), 0);
+	}
+	kfree(color);
 }
