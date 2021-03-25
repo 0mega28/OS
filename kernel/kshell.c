@@ -62,11 +62,25 @@ void command_help(char *input)
 	char *help = strtok(input, ' ', 1);
 
 	if (!help)
-		kprint("\tList of commands\n\tNAME END CLEAR HELP\n\tType `HELP NAME` to find more about command NAME\n");
+		kprint("\tList of commands\n\tNAME END CLEAR HELP\n\tType `HELP NAME` to find more about command NAME.\n");
 	else if (strcmp(help, "NAME") == 0)
 	{
-		kprint("\tNAME : GIVE ONE ARGUMENT TO CHANGE SHELL NAME\n");
+		kprint("\tNAME : Give 'name' argument to change shell name.\n");
 	}
+	else if (strcmp(help, "COLOR") == 0)
+	{
+		kprint("\tCOLOR : Give 'color' argument to change shell color.\n");
+		kprint("\tOptions : Red, Green, Blue, Cyan\n");
+	}
+	else if (strcmp(help, "CLEAR") == 0)
+	{
+		kprint("\tCLEAR : Clears the screen.\n");
+	}
+	else if (strcmp(help, "END") == 0)
+	{
+		kprint("\tEND : Halts the CPU.\n");
+	}
+	
 
 	kfree(help);
 }
