@@ -82,7 +82,7 @@ void fill_row_with_color(uint8_t color, int row)
 
 	for (int i = 0; i < screen_size; i++)
 	{
-		screen[2 * i + 1] = color;
+		screen[2 * row * MAX_COLS + 2 * i + 1] = color;
 	}
 }
 
