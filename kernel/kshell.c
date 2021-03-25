@@ -11,10 +11,11 @@ enum vga_color color_vga;
 void command_help(char *input);
 void command_name(char *input);
 void command_color(char *input);
+void command_picture(char *input);
 
 void init_header()
 {
-	kprint_middle_row("OS KERNEL (type help to get command name)\n\n", 0);
+	kprint_middle_row("OS KERNEL SHELL (type help to get command name)\n\n", 0);
 	fill_row_with_color(vga_entry_color(VGA_COLOR_WHITE, color_vga), 0);
 }
 
@@ -51,6 +52,10 @@ void user_input(char *input)
 	{
 		command_color(input);
 	}
+	else if (strcmp(command, "PICTURE") == 0)
+	{
+		command_picture(input);
+	}
 
 	kfree(command);
 	kprint(shell_name);
@@ -62,7 +67,7 @@ void command_help(char *input)
 	char *help = strtok(input, ' ', 1);
 
 	if (!help)
-		kprint("\tList of commands\n\tNAME END CLEAR HELP\n\tType `HELP NAME` to find more about command NAME.\n");
+		kprint("\tList of commands\n\tNAME END CLEAR HELP PICTURE\n\tType `HELP NAME` to find more about command NAME.\n");
 	else if (strcmp(help, "NAME") == 0)
 	{
 		kprint("\tNAME : Give 'name' argument to change shell name.\n");
@@ -80,7 +85,11 @@ void command_help(char *input)
 	{
 		kprint("\tEND : Halts the CPU.\n");
 	}
-	
+	else if (strcmp(help, "PICTURE") == 0)
+	{
+		kprint("\tPICTURE : Prints a picture\n");
+		kprint("\tAvailable picture: RAIN\n");
+	}
 
 	kfree(help);
 }
@@ -134,4 +143,22 @@ void command_color(char *input)
 		fill_row_with_color(vga_entry_color(VGA_COLOR_WHITE, color_vga), 0);
 	}
 	kfree(color);
+}
+
+void command_picture(char *input)
+{
+	char *picture = strtok(input, ' ', 1);
+	if (!picture)
+		kprint("1 Argument Required!\n");
+	else if (strcmp(picture, "RAIN") == 0)
+	{
+		kprint("      __   _\n");
+		kprint("    _(  )_( )_\n");
+		kprint("   (_   _    _)\n");
+		kprint("  / /(_) (__)\n");
+		kprint(" / / / / / /\n");
+		kprint("/ / / / / /\n");
+	}
+
+	kfree(picture);
 }
