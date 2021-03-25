@@ -19,6 +19,7 @@
 -   Virtual memory (Paging)
 -	Ordered array data structure
 -	Memory Manager
+-   Basic shell commands
 
 <br/>
 
@@ -52,9 +53,13 @@
 │   └── screen.h
 ├── get_kernel_size
 ├── kernel
+│   ├── bootanimation.c
+│   ├── bootanimation.h
 │   ├── kernel.c
 │   ├── kernel_entry.asm
-│   └── kernel.h
+│   ├── kernel.h
+│   ├── kshell.c
+│   └── kshell.h
 ├── libc
 │   ├── function.c
 │   ├── function.h
@@ -64,6 +69,7 @@
 │   ├── ordered_array.h
 │   ├── string.c
 │   └── string.h
+├── LICENSE
 ├── linker.ld
 ├── Makefile
 ├── memory
