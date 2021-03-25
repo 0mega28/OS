@@ -7,6 +7,8 @@ char shell_name[15] = "SHELL";
 extern char color_attribute;
 enum vga_color color_vga;
 
+void print_SAY_OS();
+
 /* Commands declaration */
 void command_help(char *input);
 void command_name(char *input);
@@ -15,13 +17,16 @@ void command_picture(char *input);
 
 void init_header()
 {
-	kprint_middle_row("OS KERNEL SHELL (type help to get command name)\n\n", 0);
+	kprint_middle_row("SAY OS KERNEL SHELL (type help to get command name)\n\n", 0);
 	fill_row_with_color(vga_entry_color(VGA_COLOR_WHITE, color_vga), 0);
 }
 
 void kshell()
 {
+	color_attribute = (char)vga_entry_color(VGA_COLOR_CYAN, VGA_COLOR_BLACK);
+	color_vga = VGA_COLOR_CYAN;
 	init_header();
+	print_SAY_OS();
 	kprint(shell_name);
 	kprint("> ");
 }
@@ -62,6 +67,20 @@ void user_input(char *input)
 	kprint("> ");
 }
 
+void print_SAY_OS()
+{
+	kprint("\n");
+	kprint("		  /$$$$$$   /$$$$$$  /$$     /$$        /$$$$$$   /$$$$$$ \n");
+	kprint("		 /$$__  $$ /$$__  $$|  $$   /$$/       /$$__  $$ /$$__  $$\n");
+	kprint("		| $$  \\__/| $$  \\ $$ \\  $$ /$$/       | $$  \\ $$| $$  \\__/\n");
+	kprint("		|  $$$$$$ | $$$$$$$$  \\  $$$$/        | $$  | $$|  $$$$$$ \n");
+	kprint("		 \\____  $$| $$__  $$   \\  $$/         | $$  | $$ \\____  $$\n");
+	kprint(" 		/$$  \\ $$| $$  | $$    | $$          | $$  | $$ /$$  \\ $$\n");
+	kprint("		|  $$$$$$/| $$  | $$    | $$          |  $$$$$$/|  $$$$$$/\n");
+	kprint(" 		\\______/ |__/  |__/    |__/           \\______/  \\______/\n");
+	kprint("\n");
+}
+
 void command_help(char *input)
 {
 	char *help = strtok(input, ' ', 1);
@@ -75,7 +94,7 @@ void command_help(char *input)
 	else if (strcmp(help, "COLOR") == 0)
 	{
 		kprint("\tCOLOR : Give 'color' argument to change shell color.\n");
-		kprint("\tOptions : Red, Green, Blue, Cyan\n");
+		kprint("\tOptions : Red, Green, Blue, Cyan, White\n");
 	}
 	else if (strcmp(help, "CLEAR") == 0)
 	{
@@ -142,6 +161,13 @@ void command_color(char *input)
 		change_text_color((uint8_t)color_attribute);
 		fill_row_with_color(vga_entry_color(VGA_COLOR_WHITE, color_vga), 0);
 	}
+	else if (strcmp(color, "WHITE") == 0)
+	{
+		color_attribute = (char)vga_entry_color(VGA_COLOR_WHITE, VGA_COLOR_BLACK);
+		color_vga = VGA_COLOR_WHITE;
+		change_text_color((uint8_t)color_attribute);
+		fill_row_with_color(vga_entry_color(VGA_COLOR_WHITE, color_vga), 0);
+	}
 	kfree(color);
 }
 
@@ -149,7 +175,9 @@ void command_picture(char *input)
 {
 	char *picture = strtok(input, ' ', 1);
 	if (!picture)
-		kprint("1 Argument Required!\n");
+	{
+		print_SAY_OS();
+	}
 	else if (strcmp(picture, "RAIN") == 0)
 	{
 		kprint("      __   _\n");

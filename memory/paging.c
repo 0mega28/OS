@@ -53,6 +53,8 @@ page_directory_t *current_directory = 0;
 
 void initialise_paging()
 {
+	kheap = 0;
+
 	/* Size of physical memory. Assume 16M(For now) */
 	uint32_t memory_end = 0x1000000;
 
