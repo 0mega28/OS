@@ -40,6 +40,7 @@ void kprint(char *message);
 void kprint_backspace();
 uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg);
 void fill_screen_with_color(uint8_t color);
+void fill_row_with_color(uint8_t color, int row);
 void kprint_middle_row(char *message, int row);
 
 #endif

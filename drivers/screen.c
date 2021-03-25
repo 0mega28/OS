@@ -11,6 +11,9 @@ int get_offset(int col, int row);
 int get_offset_row(int offset);
 int get_offset_col(int offset);
 
+/* Current color attributes of shell */
+char color_attribute = WHITE_ON_BLACK;
+
 /*****************************************************
  *          Public Kernel API functions              *
  *****************************************************/
@@ -36,7 +39,7 @@ void kprint_at(char *message, int col, int row)
 	int i = 0;
 	while (message[i] != 0)
 	{
-		offset = print_char(message[i++], col, row, WHITE_ON_BLACK);
+		offset = print_char(message[i++], col, row, color_attribute);
 		row = get_offset_row(offset);
 		col = get_offset_col(offset);
 	}
@@ -52,7 +55,7 @@ void kprint_backspace()
 	int offset = get_cursor_offset() - 2;
 	int row = get_offset_row(offset);
 	int col = get_offset_col(offset);
-	offset = print_char(' ', col, row, WHITE_ON_BLACK);
+	offset = print_char(' ', col, row, color_attribute);
 	set_cursor_offset(offset - 2);
 }
 
@@ -64,6 +67,17 @@ uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg)
 void fill_screen_with_color(uint8_t color)
 {
 	int screen_size = MAX_COLS * MAX_ROWS;
+	char *screen = (char *)VIDEO_ADDRESS;
+
+	for (int i = 0; i < screen_size; i++)
+	{
+		screen[2 * i + 1] = color;
+	}
+}
+
+void fill_row_with_color(uint8_t color, int row)
+{
+	int screen_size = MAX_COLS;
 	char *screen = (char *)VIDEO_ADDRESS;
 
 	for (int i = 0; i < screen_size; i++)
@@ -116,6 +130,10 @@ int print_char(char c, int col, int row, char attr)
 	{
 		row = get_offset_row(offset);
 		offset = get_offset(0, row + 1); /* Setting the cursor to next row */
+	}
+	else if (c == '\t')
+	{
+		offset += 10;
 	}
 	else
 	{
@@ -178,7 +196,7 @@ void clear_screen()
 	for (int i = 0; i < screen_size; i++)
 	{
 		screen[i * 2] = ' ';
-		screen[i * 2 + 1] = WHITE_ON_BLACK;
+		screen[i * 2 + 1] = color_attribute;
 	}
 	set_cursor_offset(get_offset(0, 0));
 }
