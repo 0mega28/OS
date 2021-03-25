@@ -86,6 +86,17 @@ void fill_row_with_color(uint8_t color, int row)
 	}
 }
 
+void change_text_color(uint8_t color)
+{
+	int screen_size = MAX_COLS * MAX_ROWS;
+	char *screen = (char *)VIDEO_ADDRESS;
+
+	for (int i = 0; i < screen_size; i++)
+	{
+		screen[2 * i + 1] = color;
+	}
+}
+
 void kprint_middle_row(char *message, int row)
 {
 	int col_offset = ((int)MAX_COLS - strlen(message)) / 2;
