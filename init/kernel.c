@@ -1,15 +1,14 @@
 #include "../drivers/screen.h"
 #include "../cpu/gdt.h"
 #include "../cpu/isr.h"
-#include "kernel.h"
 #include "../libc/string.h"
 #include "../memory/paging.h"
 #include "../libc/function.h"
-#include "bootanimation.h"
+#include "../kernel/bootanimation.h"
 #include <stdbool.h>
-#include "kshell.h"
+#include "../kernel/kshell.h"
 
-bool is_busy = false;
+extern bool is_busy;
 
 void kmain()
 {

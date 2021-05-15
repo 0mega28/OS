@@ -5,13 +5,13 @@
 #include "../libc/mem.h"
 #include "../libc/string.h"
 #include "../libc/function.h"
-#include "../kernel/kernel.h"
+#include "../kernel/kshell.h"
 #include <stdbool.h>
 
 #define BACKSPACE 0X0E
 #define ENTER 0X1C
 
-extern volatile bool is_busy;
+bool is_busy = false;
 
 static char key_buffer[256];
 
