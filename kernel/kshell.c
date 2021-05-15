@@ -86,7 +86,7 @@ void command_help(char *input)
 	char *help = strtok(input, ' ', 1);
 
 	if (!help)
-		kprint("\tList of commands\n\tNAME END CLEAR HELP PICTURE\n\tType `HELP NAME` to find more about command NAME.\n");
+		kprint("\tList of commands\n\tNAME END CLEAR COLOR HELP PICTURE\n\tType `HELP NAME` to find more about command NAME.\n");
 	else if (strcmp(help, "NAME") == 0)
 	{
 		kprint("\tNAME : Give 'name' argument to change shell name.\n");

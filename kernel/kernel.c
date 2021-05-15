@@ -1,4 +1,5 @@
 #include "../drivers/screen.h"
+#include "../cpu/gdt.h"
 #include "../cpu/isr.h"
 #include "kernel.h"
 #include "../libc/string.h"
@@ -12,6 +13,7 @@ bool is_busy = false;
 
 void kmain()
 {
+	init_gdt();
 	isr_install();
 	irq_install();
 

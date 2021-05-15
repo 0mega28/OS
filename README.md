@@ -2,9 +2,9 @@
 
 -   I have always wanted to boot OS from scratch.
 
--   In this project we are bootstraping kernel via a simple boot sector which loads the kernel into memory, then loadg gdt and switches to 32-bit protected mode from 16-bit real mode and then calls the kernel code.
+-   In this project we are bootstraping kernel via a simple boot sector which loads the kernel into memory and switches to 32-bit protected mode from 16-bit real mode and then calls the kernel code.
 
--   Kernel sets up the interrupt descriptor table, initializes timer, keyboard interrupt and paging.
+-   Kernel sets up the global descriptor table, interrupt descriptor table, initializes timer, keyboard interrupt and paging.
 
 <br/>
 
@@ -20,6 +20,7 @@
 -	Ordered array data structure
 -	Memory Manager
 -   Basic shell commands
+-	Multiboot compliant kernel
 
 <br/>
 

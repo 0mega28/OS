@@ -28,13 +28,6 @@ SECTIONS {
         *(.bss)
 		. = ALIGN(4096);
     }
-	
-	/* Remove Unneeded sections */
-	/DISCARD/ :
-	{            
-        *(.eh_frame);
-        *(.comment);
-    }
 
     end = .; _end = .; __end = .;
 }
