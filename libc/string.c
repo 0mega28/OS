@@ -116,3 +116,21 @@ char *strtok(char *string, char d, int i)
 	to_ret[index_of_to_ret] = '\0';
 	return to_ret;
 }
+
+void string_copy(char *dest, const char *src)
+{
+	do
+	{
+		*dest++ = *src++;
+	} while (*src);
+}
+
+void string_cat(char *dest, const char *src)
+{
+	while (*dest)
+		*dest++;
+	do
+	{
+		*dest++ = *src++;
+	} while (*src);
+}
