@@ -18,7 +18,7 @@ run: all
 # This builds the binary of our kernel from two object files:
 #	- the kernel_entry, which jumps to main in our kernel
 #	- the compile C kernel
-kernel.bin: boot.o kernel/kernel_entry.o ${OBJ}
+kernel.bin: boot.o ${OBJ}
 	i686-elf-ld -o $@ ${LDFLAGS} $^ --oformat binary
 
 # Generic rule to compile C code to an object file
@@ -43,7 +43,7 @@ kernel.dis: kernel.bin
 	ndisasm -b 32 $< > $@
 
 # Used for debugging purposes
-kernel.elf: boot.o kernel/kernel_entry.o ${OBJ}
+kernel.elf: boot.o ${OBJ}
 	i686-elf-ld -o $@ ${LDFLAGS} $^
 
 # Open the connection to QEmu and load our kernel-object file with symbols
